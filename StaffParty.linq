@@ -7,11 +7,10 @@ void Main()
 	// to do: Put in a mode where it shows days that not everyone is available, but where most people aren't... also put a weighting on people depending on how much fun they are.
 	var staffAvailbility = new List<Constraint>{
 		new Constraint("Should be Soon", d => d.Date < new DateTime(2020,12,31)),
-		new Constraint("Damien", (d)=> (d.Date != new DateTime(2020,12,25))), // to be adjusted... need to speak with Bek. 
+		new Constraint("Damien", IsDamienAvailable), // to be adjusted... need to speak with Bek. 
 		new Constraint("Kim", (d)=>true),
 		new Constraint("Irina", (d)=>true),
-		new Constraint("Mark", (d)=>true),
-		//new Constraint("Bill", IsWesAvailable),
+		new Constraint("Mark", (d)=>true)
 	};
 	
 	var results = new List<Result>();	
@@ -55,6 +54,15 @@ public class Result{
 	public bool Available { get; set; }
 	public List<string> UnavailablePeople { get; set; }
 }
+
+public bool IsDamienAvailable(DateTime d) => new[] {
+new DateTime(2020,12,11),
+new DateTime(2020,12,12),
+new DateTime(2020,12,25)
+}.All(k => k.Date != d.Date);
+
+
+
 
 public bool IsWesAvailable(DateTime d)
 {
