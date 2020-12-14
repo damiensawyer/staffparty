@@ -9,7 +9,7 @@ void Main()
 		new Constraint("Should be Soon", d => d.Date < new DateTime(2020,12,31)),
 		new Constraint("Damien", IsDamienAvailable), // to be adjusted... still need to speak with Bek. 
 		new Constraint("Kim", (d)=>true),
-		new Constraint("Irina", (d)=>true),
+		new Constraint("Irina", IsIrinaAvailable),
 		new Constraint("Mark", IsMarkAvailable)
 	};
 	
@@ -63,6 +63,18 @@ new DateTime(2020,12,19),
 new DateTime(2020,12,20),
 new DateTime(2020,12,25)
 }.All(k => k.Date != d.Date);
+
+public bool IsIrinaAvailable(DateTime d) => new[] {
+new DateTime(2020,12,15),
+new DateTime(2020,12,16),
+new DateTime(2020,12,17),
+new DateTime(2020,12,18),
+new DateTime(2020,12,19),
+new DateTime(2020,12,20),
+new DateTime(2020,12,24),
+new DateTime(2020,12,25)
+}.All(k => k.Date != d.Date);
+
 
 
 public bool IsMarkAvailable(DateTime d) => new[] {
