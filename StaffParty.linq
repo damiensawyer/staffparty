@@ -58,6 +58,9 @@ public class Result{
 public bool IsDamienAvailable(DateTime d) => new[] {
 new DateTime(2020,12,11),
 new DateTime(2020,12,12),
+new DateTime(2020,12,15),
+new DateTime(2020,12,19),
+new DateTime(2020,12,20),
 new DateTime(2020,12,25)
 }.All(k => k.Date != d.Date);
 
