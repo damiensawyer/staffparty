@@ -6,7 +6,7 @@ void Main()
 {
 	// to do: Put in a mode where it shows days that not everyone is available, but where most people aren't... also put a weighting on people depending on how much fun they are.
 	var staffAvailbility = new List<Constraint>{
-		new Constraint("Should be Soon", d => d.Date < new DateTime(2020,12,31)),
+		new Constraint("Should be Soon", d =>d.Date < new DateTime(2021,2,28)),
 		new Constraint("Damien", IsDamienAvailable), // to be adjusted... still need to speak with Bek. 
 		new Constraint("Kim", (d)=>true),
 		new Constraint("Irina", IsIrinaAvailable),
@@ -15,7 +15,7 @@ void Main()
 	
 	var results = new List<Result>();	
 	
-	for (int i = 0; i < new DateTime(2020,12,31).Subtract(DateTime.Now).Days; i++)
+	for (int i = 0; i < new DateTime(2021,2,28).Subtract(DateTime.Now).Days; i++)
 	{
 		var unavailable = new List<string>();
 		var d = DateTime.Now.AddDays(i);
@@ -77,37 +77,38 @@ new DateTime(2020,12,25)
 
 
 
-public bool IsMarkAvailable(DateTime d) => new[] {
-new DateTime(2020,12,23),
-new DateTime(2020,12,25)
-}.All(k => k.Date != d.Date);
+public bool IsMarkAvailable(DateTime d) => new DateTime[] {
+}.All(k => k.Date != d.Date)
+&& d > new DateTime(2021, 1, 31)
+&& new[] {DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday}.Contains(d.DayOfWeek)
+;
 
 
-
-
-public bool IsWesAvailable(DateTime d)
-{
-	if (IsBetweenInclusive(d, new DateTime(2015,8,14), new DateTime(2015,8,15))) return false;
-	
-    switch(d.DayOfWeek) {
-        case DayOfWeek.Monday:   return d.Day <= 7 || d.Day > 14;
-        case DayOfWeek.Friday:   return d.Day > 28;
-		
-        case DayOfWeek.Thursday: 
-		{
-			switch (d.Month) {
-				case 6: return false;
-				case 7: return d.Day < 10 || d.Day == 30;
-				case 8: return false;
-				case 9: return d.Day > 17;
-				case 10: return d.Day < 8 && d.Day > 15;
-			}
-			break;
-		}
-    }
-	
-	return true;        
-}
+//
+//
+//public bool IsWesAvailable(DateTime d)
+//{
+//	if (IsBetweenInclusive(d, new DateTime(2015,8,14), new DateTime(2015,8,15))) return false;
+//	
+//    switch(d.DayOfWeek) {
+//        case DayOfWeek.Monday:   return d.Day <= 7 || d.Day > 14;
+//        case DayOfWeek.Friday:   return d.Day > 28;
+//		
+//        case DayOfWeek.Thursday: 
+//		{
+//			switch (d.Month) {
+//				case 6: return false;
+//				case 7: return d.Day < 10 || d.Day == 30;
+//				case 8: return false;
+//				case 9: return d.Day > 17;
+//				case 10: return d.Day < 8 && d.Day > 15;
+//			}
+//			break;
+//		}
+//    }
+//	
+//	return true;        
+//}
 
 public bool IsBetweenInclusive(DateTime d, DateTime startDate, DateTime endDate)
 {
