@@ -8,7 +8,7 @@ void Main()
 	var staffAvailbility = new List<Constraint>{
 		new Constraint("Should be Soon", d =>d.Date < new DateTime(2021,2,28)),
 		new Constraint("Damien", IsDamienAvailable), // to be adjusted... still need to speak with Bek. 
-		new Constraint("Kim", (d)=>true),
+		new Constraint("Kim", IsKim),
 		new Constraint("Irina", IsIrinaAvailable),
 		new Constraint("Mark", IsMarkAvailable)
 	};
@@ -75,9 +75,13 @@ new DateTime(2020,12,24),
 new DateTime(2020,12,25)
 }.All(k => k.Date != d.Date);
 
+public bool IsKim(DateTime d) => new DateTime[] {
+new DateTime(2021, 2, 05)}.All(k => k.Date != d.Date)
+;
 
 
 public bool IsMarkAvailable(DateTime d) => new DateTime[] {
+new DateTime(2021, 2, 05)
 }.All(k => k.Date != d.Date)
 && d > new DateTime(2021, 1, 31)
 && new[] {DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday}.Contains(d.DayOfWeek)
