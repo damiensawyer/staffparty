@@ -4,9 +4,10 @@
 
 void Main()
 {
+	const int daysOutToProject = 30;
 	// to do: Put in a mode where it shows days that not everyone is available, but where most people aren't... also put a weighting on people depending on how much fun they are.
 	var staffAvailbility = new List<Constraint>{
-		new Constraint("Should be Soon", d =>d.Date < new DateTime(2023,6,30)),
+		//new Constraint("Should be Soon", d =>d.Date <DateTime.Now.AddDays(daysOutToProject)),
 		new Constraint("Kim Unavailable", IsKim),
 		new Constraint("Mark Unavailable", IsMarkAvailable),
 		new Constraint("Damien Unavailable", IsDamienAvailable) // to be adjusted... still need to speak with Bek. 
@@ -15,7 +16,7 @@ void Main()
 	var results = new List<Result>();	
 	
 	//for (int i = 0; i < new DateTime(2023,12,28).Subtract(DateTime.Now).Days; i++)
-	for (int i = 0; i < 60; i++)
+	for (int i = 0; i < daysOutToProject ; i++)
 	{
 		var unavailable = new List<string>();
 		var d = DateTime.Now.AddDays(i).Date;
@@ -33,8 +34,11 @@ void Main()
 	results.Select (d => new {
 								Date =string.Format("{0:ddd dd-MMM-yy}", d.Date),
 								Available = d.Available,
-								UnavailablePeople = string.Join(", ", d.UnavailablePeople.ToArray()),
-								}).Dump("All Dates With Availability");
+		UnavailablePeople = string.Join(", ", d.UnavailablePeople.ToArray()),
+		}).Dump($"All Dates With Availability over the next {daysOutToProject } days");
+
+	var a = results.Count(r => r.Available);
+	Console.WriteLine($"{a} available days {((decimal)a / daysOutToProject)*100:F2}%");
 }
 
 // Could be a person's or a business constraint
@@ -61,17 +65,22 @@ public bool IsDamienAvailable(DateTime d)
 
 	DateTime[] unavailableDates = new DateTime[]
 	{
+		//new (2023, 06,08),
 		new (2023, 12, 25)
 	};
 
 	return !unavailableDates.Contains(d) && AvailableWeekNights(d);
 }
 
-public bool IsKim(DateTime d) => 
-true ||
-new DateTime[] {
-	new DateTime(2021, 2, 05)}.All(k => k.Date != d.Date)
-;
+//public bool IsKim(DateTime d) => 
+//true ||
+//new DateTime[] {
+//	new DateTime(2021, 2, 05)}.All(k => k.Date != d.Date)
+//;
+
+
+public bool IsKim(DateTime d) => true;
+
 
 
 public bool IsMarkAvailable(DateTime d) => 
